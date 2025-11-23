@@ -13,6 +13,71 @@
   padding: 0 20px;
 }
 
+/* 平板设备 */
+@media (max-width: 992px) {
+  .product-detail-content {
+    padding: 16px 0;
+  }
+
+  .product-detail-container {
+    padding: 0 12px;
+  }
+
+  .product-title {
+    font-size: 20px;
+  }
+
+  .detail-price {
+    font-size: 28px;
+  }
+
+  .product-meta-info {
+    gap: 16px;
+    font-size: 13px;
+  }
+}
+
+/* 手机设备 */
+@media (max-width: 576px) {
+  .product-detail-content {
+    padding: 12px 0;
+  }
+
+  .product-detail-container {
+    padding: 0 8px;
+  }
+
+  .product-title {
+    font-size: 18px;
+  }
+
+  .detail-price {
+    font-size: 24px;
+  }
+
+  .detail-original-price {
+    font-size: 16px;
+  }
+
+  .product-meta-info {
+    gap: 12px;
+    font-size: 12px;
+    flex-wrap: wrap;
+  }
+
+  .product-actions-detail {
+    flex-direction: column;
+  }
+
+  .product-actions-detail button {
+    width: 100%;
+  }
+
+  .product-description h3 {
+    font-size: 16px;
+  }
+}
+
 .product-images {
   background: #fff;
   border-radius: 4px;
@@ -92,4 +157,47 @@
 .product-description p {
   color: #4e5969;
   line-height: 1.6;
+}
+
+/* 推荐商品 */
+.recommended-section {
+  margin-top: 32px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.recommended-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1d2129;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #165dff;
+}
+
+/* 平板设备 */
+@media (max-width: 992px) {
+  .recommended-section {
+    margin-top: 24px;
+    padding: 20px;
+  }
+
+  .recommended-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+}
+
+/* 手机设备 */
+@media (max-width: 576px) {
+  .recommended-section {
+    margin-top: 16px;
+    padding: 16px;
+  }
+
+  .recommended-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
 }

@@ -1,47 +1,43 @@
-import { useState } from 'react'
-import { Layout, Row, Col, Pagination } from '@arco-design/web-react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Layout, Grid, Pagination, Spin } from '@arco-design/web-react'
 import { Navigation } from '../../components/Navigation'
 import { Filter } from '../../components/Filter'
 import { ProductCard } from '../../components/ProductCard'
-import { Product } from '../../types'
+import { useProductStore } from '../../store/productStore'
+import { useFilterStore } from '../../store/filterStore'
 import './index.css'
 
 const { Content } = Layout
-
-// Mock 数据
-const mockProducts: Product[] = [
-  {
-    id: 1,
-    name: 'iPhone 15 Pro Max',
-    price: 9999,
-    originalPrice: 10999,
-    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400',
-    category: 'digital',
-    stock: 100,
-    sales: 1234,
-    rating: 4.8
-  },
-  {
-    id: 2,
-    name: 'MacBook Pro 14',
-    price: 15999,
-    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400',
-    category: 'digital',
-    stock: 50,
-    sales: 567,
-    rating: 4.9
-  },
-  // 添加更多商品...
-]
+const { Row, Col } = Grid
 
 export const ProductList = () => {
+  const navigate = useNavigate()
   const [current, setCurrent] = useState(1)
   const [pageSize] = useState(12)
 
+  // 使用 store
+  const { filteredProducts, loading, fetchProducts, filterProducts } = useProductStore()
+  const { filters } = useFilterStore()
+
+  // 初始化加载商品
+  useEffect(() => {
+    fetchProducts()
+  }, [fetchProducts])
+
+  // 监听筛选条件变化
+  useEffect(() => {
+    filterProducts(filters)
+  }, [filters, filterProducts])
+
   const handleViewDetail = (id: number) => {
-    console.log('查看商品详情:', id)
-    // 这里后续可以跳转到详情页
+    navigate(`/product/${id}`)
   }
+
+  // 分页数据
+  const startIndex = (current - 1) * pageSize
+  const endIndex = startIndex + pageSize
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex)
 
   return (
     <Layout className="product-list-layout">
@@ -50,35 +46,50 @@ export const ProductList = () => {
         <div className="product-list-container">
           <Row gutter={24}>
             {/* 左侧筛选栏 */}
-            <Col span={6}>
+            <Col xs={24} sm={24} md={8} lg={6} xl={6}>
               <Filter />
             </Col>
 
             {/* 右侧商品列表 */}
-            <Col span={18}>
-              <Row gutter={[16, 16]}>
-                {mockProducts.map(product => (
-                  <Col span={6} key={product.id}>
-                    <ProductCard 
-                      product={product}
-                      onViewDetail={handleViewDetail}
-                    />
-                  </Col>
-                ))}
-              </Row>
+            <Col xs={24} sm={24} md={16} lg={18} xl={18}>
+              <Spin loading={loading} style={{ display: 'block' }}>
+                {filteredProducts.length === 0 && !loading ? (
+                  <div className="empty-state">
+                    <div className="empty-state-icon">📦</div>
+                    <div>暂无符合条件的商品</div>
+                  </div>
+                ) : (
+                  <>
+                    <Row gutter={[16, 16]}>
+                      {paginatedProducts.map(product => (
+                        <Col xs={12} sm={12} md={12} lg={8} xl={6} key={product.id}>
+                          <ProductCard 
+                            product={product}
+                            onViewDetail={handleViewDetail}
+                          />
+                        </Col>
+                      ))}
+                    </Row>
 
-              {/* 分页器 */}
-              <div className="pagination-wrapper">
-                <Pagination
-                  current={current}
-                  pageSize={pageSize}
-                  total={100}
-                  onChange={setCurrent}
-                  showTotal
-                  showJumper
-                  sizeCanChange
-                />
-              </div>
+                    {/* 分页器 */}
+                    {filteredProducts.length > 0 && (
+                      <div className="pagination-wrapper">
+                        <Pagination
+                          current={current}
+                          pageSize={pageSize}
+                          total={filteredProducts.length}
+                          onChange={(page) => {
+                            setCurrent(page)
+                            window.scrollTo({ top: 0, behavior: 'smooth' })
+                          }}
+                          showTotal
+                          showJumper
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </Spin>
             </Col>
           </Row>
         </div>

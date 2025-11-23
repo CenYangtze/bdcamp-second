@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { FilterParams } from '../types'
+import type { FilterParams } from '../types'
 
 interface FilterStore {
   filters: FilterParams

@@ -19,3 +19,44 @@
   margin-top: 32px;
   padding: 24px 0;
 }
+
+.empty-state {
+  text-align: center;
+  padding: 60px 0;
+  color: #999;
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+/* 平板设备 */
+@media (max-width: 992px) {
+  .product-list-content {
+    padding: 16px 0;
+  }
+
+  .product-list-container {
+    padding: 0 12px;
+  }
+}
+
+/* 手机设备 */
+@media (max-width: 576px) {
+  .product-list-content {
+    padding: 12px 0;
+  }
+
+  .product-list-container {
+    padding: 0 8px;
+  }
+
+  .empty-state {
+    padding: 40px 0;
+  }
+
+  .empty-state-icon {
+    font-size: 36px;
+  }
+}

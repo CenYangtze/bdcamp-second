@@ -8,3 +8,18 @@
   margin-bottom: 8px;
   color: #1d2129;
 }
+
+/* 平板设备 */
+@media (max-width: 992px) {
+  .filter-card {
+    position: static;
+    margin-bottom: 16px;
+  }
+}
+
+/* 手机设备 */
+@media (max-width: 576px) {
+  .filter-card {
+    margin-bottom: 12px;
+  }
+}

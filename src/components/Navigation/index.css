@@ -13,16 +13,65 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  gap: 16px;
 }
 
 .navigation-logo h1 {
   margin: 0;
   font-size: 24px;
   color: #165dff;
+  white-space: nowrap;
 }
 
 .navigation-search {
   flex: 1;
   max-width: 500px;
-  margin: 0 40px;
+  margin: 0 20px;
+}
+
+.navigation-actions {
+  white-space: nowrap;
+}
+
+/* 平板设备 */
+@media (max-width: 768px) {
+  .navigation-container {
+    padding: 0 12px;
+  }
+
+  .navigation-logo h1 {
+    font-size: 20px;
+  }
+
+  .navigation-search {
+    margin: 0 12px;
+    max-width: 300px;
+  }
+}
+
+/* 手机设备 */
+@media (max-width: 576px) {
+  .navigation-container {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+  }
+
+  .navigation-logo {
+    order: 1;
+  }
+
+  .navigation-actions {
+    order: 2;
+  }
+
+  .navigation-search {
+    order: 3;
+    width: 100%;
+    max-width: 100%;
+    margin: 8px 0 0 0;
+  }
+
+  .navigation-logo h1 {
+    font-size: 18px;
+  }
 }

@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Layout, Input, Badge, Button, Space } from '@arco-design/web-react'
-import { IconSearch, IconShoppingCart } from '@arco-design/web-react/icon'
 import { useCartStore } from '../../store/cartStore'
 import { useFilterStore } from '../../store/filterStore'
 import './index.css'
@@ -38,10 +37,9 @@ export const Navigation = () => {
             <Badge count={cartCount} maxCount={99}>
               <Button
                 type="text"
-                icon={<IconShoppingCart />}
                 size="large"
               >
-                购物车
+                🛒 购物车
               </Button>
             </Badge>
           </Space>

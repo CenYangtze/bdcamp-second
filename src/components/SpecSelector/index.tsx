@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Space, Tag } from '@arco-design/web-react'
-import { ProductSpec } from '../../types'
+import type { ProductSpec } from '../../types'
 import './index.css'
 
 interface SpecSelectorProps {
@@ -24,17 +24,15 @@ export const SpecSelector = ({ specs, onChange }: SpecSelectorProps) => {
           <div className="spec-label">{spec.name}</div>
           <Space wrap>
             {spec.options.map((option) => (
-              <Tag.CheckableTag
+              <Tag
                 key={option}
+                checkable
                 checked={selectedSpecs[spec.name] === option}
-                onChange={(checked) => {
-                  if (checked) {
-                    handleSelectSpec(spec.name, option)
-                  }
-                }}
+                onClick={() => handleSelectSpec(spec.name, option)}
+                style={{ cursor: 'pointer' }}
               >
                 {option}
-              </Tag.CheckableTag>
+              </Tag>
             ))}
           </Space>
         </div>

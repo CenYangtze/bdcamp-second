@@ -4,7 +4,6 @@
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
@@ -13,6 +12,36 @@
   height: 200px;
   overflow: hidden;
   background: #f7f8fa;
+}
+
+/* 平板设备 */
+@media (max-width: 992px) {
+  .product-image-wrapper {
+    height: 180px;
+  }
+
+  .product-name {
+    font-size: 13px;
+  }
+
+  .product-price {
+    font-size: 18px;
+  }
+}
+
+/* 手机设备 */
+@media (max-width: 576px) {
+  .product-image-wrapper {
+    height: 160px;
+  }
+
+  .product-actions {
+    flex-direction: column;
+  }
+
+  .product-actions button {
+    width: 100%;
+  }
 }
 
 .product-image {

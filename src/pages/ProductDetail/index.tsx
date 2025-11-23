@@ -1,52 +1,86 @@
-import { useState } from 'react'
-import { Layout, Row, Col, Card, Button, InputNumber, Space, Breadcrumb, Image } from '@arco-design/web-react'
-import { IconHome, IconShoppingCart } from '@arco-design/web-react/icon'
+import { useState, useEffect, useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Layout, Grid, Card, Button, InputNumber, Space, Breadcrumb, Image, Spin } from '@arco-design/web-react'
 import { Navigation } from '../../components/Navigation'
 import { SpecSelector } from '../../components/SpecSelector'
+import { ProductCard } from '../../components/ProductCard'
 import { useCartStore } from '../../store/cartStore'
-import { Product } from '../../types'
+import { useProductStore } from '../../store/productStore'
 import './index.css'
 
 const { Content } = Layout
-
-// Mock 商品详情数据
-const mockProduct: Product = {
-  id: 1,
-  name: 'iPhone 15 Pro Max 256GB',
-  price: 9999,
-  originalPrice: 10999,
-  image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800',
-  images: [
-    'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800',
-    'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=800',
-    'https://images.unsplash.com/photo-1592286927505-409e46c14270?w=800'
-  ],
-  category: 'digital',
-  description: '全新 iPhone 15 Pro Max，配备 A17 Pro 芯片，钛金属设计，专业级相机系统。',
-  stock: 100,
-  sales: 1234,
-  rating: 4.8,
-  specs: [
-    { name: '颜色', options: ['原色钛金属', '蓝色钛金属', '白色钛金属', '黑色钛金属'] },
-    { name: '容量', options: ['256GB', '512GB', '1TB'] }
-  ]
-}
+const { Row, Col } = Grid
 
 export const ProductDetail = () => {
+  const navigate = useNavigate()
+  const { id } = useParams()
   const [quantity, setQuantity] = useState(1)
   const [selectedSpecs, setSelectedSpecs] = useState<Record<string, string>>({})
+  
   const addItem = useCartStore(state => state.addItem)
+  const { products, getProductById, fetchProducts } = useProductStore()
+
+  // 加载商品详情
+  useEffect(() => {
+    if (id) {
+      const productId = parseInt(id)
+      const product = getProductById(productId)
+      if (!product) {
+        // 如果没有商品数据，先加载
+        fetchProducts()
+      }
+    }
+  }, [id, getProductById, fetchProducts])
+
+  // 根据 ID 获取商品
+  const product = id ? getProductById(parseInt(id)) : null
+
+  // 获取推荐商品（随机选择 4 个同类别或其他商品）
+  const recommendedProducts = useMemo(() => {
+    if (!product || !products.length) return []
+    
+    // 优先推荐同类别商品
+    const sameCategoryProducts = products.filter(
+      p => p.category === product.category && p.id !== product.id
+    )
+    
+    // 如果同类别商品不足，添加其他商品
+    const otherProducts = products.filter(
+      p => p.category !== product.category && p.id !== product.id
+    )
+    
+    const allRecommendations = [...sameCategoryProducts, ...otherProducts]
+    
+    // 随机打乱并选取 4 个
+    const shuffled = allRecommendations.sort(() => Math.random() - 0.5)
+    return shuffled.slice(0, 4)
+  }, [product, products])
 
   const handleAddToCart = () => {
+    if (!product) return
+    
     addItem({
       id: Date.now(),
-      productId: mockProduct.id,
-      name: mockProduct.name,
-      price: mockProduct.price,
+      productId: product.id,
+      name: product.name,
+      price: product.price,
       quantity,
-      image: mockProduct.image,
+      image: product.image,
       selectedSpecs
     })
+  }
+
+  if (!product) {
+    return (
+      <Layout className="product-detail-layout">
+        <Navigation />
+        <Content className="product-detail-content">
+          <div className="product-detail-container">
+            <Spin loading={true} style={{ display: 'block', textAlign: 'center', padding: '100px 0' }} />
+          </div>
+        </Content>
+      </Layout>
+    )
   }
 
   return (
@@ -56,24 +90,24 @@ export const ProductDetail = () => {
         <div className="product-detail-container">
           {/* 面包屑导航 */}
           <Breadcrumb style={{ marginBottom: 24 }}>
-            <Breadcrumb.Item>
-              <IconHome />
+            <Breadcrumb.Item onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+              🏠 首页
             </Breadcrumb.Item>
-            <Breadcrumb.Item>{mockProduct.category}</Breadcrumb.Item>
-            <Breadcrumb.Item>{mockProduct.name}</Breadcrumb.Item>
+            <Breadcrumb.Item>{product.category}</Breadcrumb.Item>
+            <Breadcrumb.Item>{product.name}</Breadcrumb.Item>
           </Breadcrumb>
 
           <Card>
             <Row gutter={32}>
               {/* 左侧图片 */}
-              <Col span={10}>
+              <Col xs={24} sm={24} md={10} lg={10} xl={10}>
                 <div className="product-images">
                   <Image.PreviewGroup>
-                    {mockProduct.images?.map((img, index) => (
+                    {product.images?.map((img: string, index: number) => (
                       <Image
                         key={index}
                         src={img}
-                        alt={`${mockProduct.name}-${index}`}
+                        alt={`${product.name}-${index}`}
                         width="100%"
                       />
                     ))}
@@ -82,28 +116,28 @@ export const ProductDetail = () => {
               </Col>
 
               {/* 右侧信息 */}
-              <Col span={14}>
+              <Col xs={24} sm={24} md={14} lg={14} xl={14}>
                 <div className="product-detail-info">
-                  <h1 className="product-title">{mockProduct.name}</h1>
+                  <h1 className="product-title">{product.name}</h1>
                   
                   <div className="product-meta-info">
-                    <span>销量：{mockProduct.sales}</span>
-                    <span>评分：⭐ {mockProduct.rating}</span>
-                    <span>库存：{mockProduct.stock}</span>
+                    <span>销量：{product.sales}</span>
+                    <span>评分：⭐ {product.rating}</span>
+                    <span>库存：{product.stock}</span>
                   </div>
 
                   <div className="product-price-section">
-                    <span className="detail-price">¥{mockProduct.price}</span>
-                    {mockProduct.originalPrice && (
-                      <span className="detail-original-price">¥{mockProduct.originalPrice}</span>
+                    <span className="detail-price">¥{product.price}</span>
+                    {product.originalPrice && (
+                      <span className="detail-original-price">¥{product.originalPrice}</span>
                     )}
                   </div>
 
                   {/* 规格选择 */}
-                  {mockProduct.specs && (
+                  {product.specs && (
                     <div className="product-specs">
                       <SpecSelector 
-                        specs={mockProduct.specs}
+                        specs={product.specs}
                         onChange={setSelectedSpecs}
                       />
                     </div>
@@ -114,7 +148,7 @@ export const ProductDetail = () => {
                     <span className="quantity-label">数量：</span>
                     <InputNumber
                       min={1}
-                      max={mockProduct.stock}
+                      max={product.stock}
                       value={quantity}
                       onChange={(value) => setQuantity(value as number)}
                     />
@@ -125,10 +159,9 @@ export const ProductDetail = () => {
                     <Button
                       type="primary"
                       size="large"
-                      icon={<IconShoppingCart />}
                       onClick={handleAddToCart}
                     >
-                      加入购物车
+                      🛒 加入购物车
                     </Button>
                     <Button size="large" type="outline">
                       立即购买
@@ -138,12 +171,32 @@ export const ProductDetail = () => {
                   {/* 商品描述 */}
                   <div className="product-description">
                     <h3>商品描述</h3>
-                    <p>{mockProduct.description}</p>
+                    <p>{product.description}</p>
                   </div>
                 </div>
               </Col>
             </Row>
           </Card>
+
+          {/* 推荐商品 */}
+          {recommendedProducts.length > 0 && (
+            <div className="recommended-section">
+              <h2 className="recommended-title">🌟 推荐商品</h2>
+              <Row gutter={[16, 16]}>
+                {recommendedProducts.map(recommendedProduct => (
+                  <Col xs={12} sm={12} md={12} lg={6} xl={6} key={recommendedProduct.id}>
+                    <ProductCard
+                      product={recommendedProduct}
+                      onViewDetail={(productId) => {
+                        navigate(`/product/${productId}`)
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                      }}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          )}
         </div>
       </Content>
     </Layout>

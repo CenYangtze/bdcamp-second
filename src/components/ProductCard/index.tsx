@@ -1,6 +1,5 @@
 import { Card, Button, Tag, Space } from '@arco-design/web-react'
-import { IconShoppingCart, IconEye } from '@arco-design/web-react/icon'
-import { Product } from '../../types'
+import type { Product } from '../../types'
 import { useCartStore } from '../../store/cartStore'
 import './index.css'
 
@@ -12,7 +11,7 @@ interface ProductCardProps {
 export const ProductCard = ({ product, onViewDetail }: ProductCardProps) => {
   const addItem = useCartStore(state => state.addItem)
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = (e: Event) => {
     e.stopPropagation()
     addItem({
       id: Date.now(),
@@ -63,17 +62,15 @@ export const ProductCard = ({ product, onViewDetail }: ProductCardProps) => {
         <Space className="product-actions" size="small">
           <Button
             type="primary"
-            icon={<IconShoppingCart />}
             onClick={handleAddToCart}
           >
-            加购
+            🛒 加购
           </Button>
           <Button
             type="outline"
-            icon={<IconEye />}
             onClick={handleViewDetail}
           >
-            详情
+            👁️ 详情
           </Button>
         </Space>
       </div>
