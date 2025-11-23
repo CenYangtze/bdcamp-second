@@ -93,3 +93,42 @@
   color: #4e5969;
   line-height: 1.6;
 }
+
+/* Responsive styles for mobile devices */
+@media (max-width: 767px) {
+  .product-detail-container {
+    padding: 0 12px;
+  }
+  
+  .product-detail-content {
+    padding: 16px 0;
+  }
+  
+  .product-images {
+    margin-bottom: 16px;
+  }
+  
+  .product-detail-info {
+    gap: 16px;
+  }
+  
+  .product-title {
+    font-size: 20px;
+  }
+  
+  .detail-price {
+    font-size: 24px;
+  }
+  
+  .detail-original-price {
+    font-size: 14px;
+  }
+  
+  .product-price-section {
+    padding: 12px;
+  }
+  
+  .product-specs {
+    padding: 12px;
+  }
+}

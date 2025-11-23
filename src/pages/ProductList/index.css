@@ -19,3 +19,18 @@
   margin-top: 32px;
   padding: 24px 0;
 }
+
+/* Responsive styles for mobile devices */
+@media (max-width: 767px) {
+  .filter-card {
+    display: none;
+  }
+  
+  .product-list-container {
+    padding: 0 12px;
+  }
+  
+  .product-list-content {
+    padding: 16px 0;
+  }
+}
