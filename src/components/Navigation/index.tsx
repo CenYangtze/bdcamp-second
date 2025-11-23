@@ -4,12 +4,17 @@ import { useCartStore } from '../../store/cartStore'
 import { useFilterStore } from '../../store/filterStore'
 import './index.css'
 
-const { Header } = Layout
+const Navigation = () => {
+    const handleCartPopup = () => {
+        // Logic to trigger cart popup
+    };
 
-export const Navigation = () => {
-  const [searchValue, setSearchValue] = useState('')
-  const cartCount = useCartStore(state => state.getTotalCount())
-  const setKeyword = useFilterStore(state => state.setKeyword)
+    return (
+        <nav>
+            <button onClick={handleCartPopup}>Cart</button>
+        </nav>
+    );
+};
 
   const handleSearch = () => {
     setKeyword(searchValue)

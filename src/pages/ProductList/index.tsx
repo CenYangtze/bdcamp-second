@@ -93,7 +93,7 @@ export const ProductList = () => {
             </Col>
           </Row>
         </div>
-      </Content>
-    </Layout>
-  )
-}
+    );
+});
+
+export default ProductList;

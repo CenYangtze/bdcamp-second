@@ -3,13 +3,13 @@ import type { Product } from '../../types'
 import { useCartStore } from '../../store/cartStore'
 import './index.css'
 
-interface ProductCardProps {
-  product: Product
-  onViewDetail?: (id: number) => void
-}
+const ProductCard = ({ product, onAddToCart }) => {
+    const [successMessage, setSuccessMessage] = useState('');
 
-export const ProductCard = ({ product, onViewDetail }: ProductCardProps) => {
-  const addItem = useCartStore(state => state.addItem)
+    const handleAddToCart = () => {
+        onAddToCart(product);
+        setSuccessMessage('Product added to cart successfully!');
+    };
 
   const handleAddToCart = (e: Event) => {
     e.stopPropagation()
@@ -58,6 +58,8 @@ export const ProductCard = ({ product, onViewDetail }: ProductCardProps) => {
           <span>已售 {product.sales}</span>
           {product.rating && <span>⭐ {product.rating}</span>}
         </div>
+    );
+};
 
         <Space className="product-actions" size="small">
           <Button
