@@ -1,27 +1,26 @@
-// 商品规格类型
-export interface Specification {
-  name: string // 规格名称，如 "颜色"、"尺寸"
-  options: string[] // 规格选项，如 ["红色", "蓝色"]
-}
-
-// 商品类型
+// 商品接口
 export interface Product {
   id: number
   name: string
   price: number
-  originalPrice?: number // 原价
+  originalPrice?: number
   image: string
-  images?: string[] // 多张图片
+  images?: string[]
   category: string
-  brand?: string
   description?: string
   stock: number
-  sales?: number // 销量
-  rating?: number // 评分
-  specifications?: Specification[] // 商品规格
+  sales: number
+  rating?: number
+  specs?: ProductSpec[]
 }
 
-// 购物车商品类型
+// 商品规格
+export interface ProductSpec {
+  name: string
+  options: string[]
+}
+
+// 购物车项目
 export interface CartItem {
   id: number
   productId: number
@@ -29,13 +28,20 @@ export interface CartItem {
   price: number
   quantity: number
   image: string
-  selectedSpecs?: Record<string, string> // 选中的规格，如 { "颜色": "红色", "尺寸": "L" }
+  selectedSpecs?: Record<string, string>
 }
 
-// 筛选参数类型
+// 筛选条件
 export interface FilterParams {
   category?: string
   priceRange?: [number, number]
   sortBy?: 'default' | 'price-asc' | 'price-desc' | 'sales'
   keyword?: string
+}
+
+// 分页参数
+export interface PaginationParams {
+  current: number
+  pageSize: number
+  total: number
 }

@@ -1,0 +1,21 @@
+.product-list-layout {
+  min-height: 100vh;
+  background: #f7f8fa;
+}
+
+.product-list-content {
+  padding: 24px 0;
+}
+
+.product-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.pagination-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  padding: 24px 0;
+}

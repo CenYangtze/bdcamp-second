@@ -1,0 +1,10 @@
+.filter-card {
+  position: sticky;
+  top: 80px;
+}
+
+.filter-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #1d2129;
+}
