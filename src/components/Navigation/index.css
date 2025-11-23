@@ -26,3 +26,14 @@
   max-width: 500px;
   margin: 0 40px;
 }
+
+/* Responsive styles for mobile devices */
+@media (max-width: 767px) {
+  .navigation-search {
+    display: none;
+  }
+  
+  .navigation-logo h1 {
+    font-size: 18px;
+  }
+}
