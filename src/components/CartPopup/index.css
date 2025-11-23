@@ -1,20 +1,50 @@
+/* 购物车列表 */
+.cart-list {
+  height: 100%;
+}
+
+/* 标题区域 */
+.cart-header-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-header-count {
+  font-size: 14px;
+  color: #86909c;
+  font-weight: normal;
+}
+
+/* 购物车项 */
 .cart-item {
+  display: block;
+  padding: 16px 0;
+  border-bottom: 1px solid #f2f3f5;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-content {
   display: flex;
   gap: 12px;
-  padding: 12px 0;
 }
 
 .cart-item-image {
   width: 80px;
   height: 80px;
   flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f7f8fa;
 }
 
 .cart-item-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 4px;
 }
 
 .cart-item-info {
@@ -22,12 +52,16 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 .cart-item-name {
   font-size: 14px;
   font-weight: 500;
   color: #1d2129;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cart-item-price {
@@ -39,24 +73,86 @@
 .cart-item-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
+.cart-item-subtotal {
+  font-size: 14px;
+  color: #86909c;
+  text-align: right;
+  margin-top: auto;
+}
+
+/* 底部结算区域 */
 .cart-footer {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
-.cart-total {
+.cart-footer-divider {
+  margin: 0 0 16px 0;
+}
+
+.cart-footer-buttons {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.cart-footer-buttons .arco-btn:first-child {
+  flex: 1;
+}
+
+.cart-footer-buttons .arco-btn:last-child {
+  flex: 2;
+}
+
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cart-summary-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 14px;
+  color: #4e5969;
+}
+
+.cart-total {
   font-size: 16px;
+  font-weight: 500;
+  color: #1d2129;
 }
 
 .cart-total-price {
   font-size: 24px;
   font-weight: 600;
   color: #f53f3f;
+}
+
+/* 空状态样式 */
+.cart-empty {
+  margin-top: 100px;
+}
+
+/* 响应式设计 */
+@media (max-width: 576px) {
+  .cart-item-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .cart-item-name {
+    font-size: 13px;
+  }
+
+  .cart-item-price {
+    font-size: 14px;
+  }
+
+  .cart-total-price {
+    font-size: 20px;
+  }
 }

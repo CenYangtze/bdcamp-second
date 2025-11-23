@@ -1,4 +1,4 @@
-import { Card, Button, Tag, Space } from '@arco-design/web-react'
+import { Card, Button, Tag, Space, Message } from '@arco-design/web-react'
 import type { Product } from '../../types'
 import { useCartStore } from '../../store/cartStore'
 import './index.css'
@@ -20,6 +20,10 @@ export const ProductCard = ({ product, onViewDetail }: ProductCardProps) => {
       price: product.price,
       quantity: 1,
       image: product.image
+    })
+    Message.success({
+      content: `已加入购物车: ${product.name}`,
+      duration: 2000
     })
   }
 

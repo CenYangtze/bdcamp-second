@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Layout, Grid, Card, Button, InputNumber, Space, Breadcrumb, Image, Spin } from '@arco-design/web-react'
+import { Layout, Grid, Card, Button, InputNumber, Space, Breadcrumb, Image, Spin, Message } from '@arco-design/web-react'
 import { Navigation } from '../../components/Navigation'
 import { SpecSelector } from '../../components/SpecSelector'
 import { ProductCard } from '../../components/ProductCard'
@@ -67,6 +67,11 @@ export const ProductDetail = () => {
       quantity,
       image: product.image,
       selectedSpecs
+    })
+    
+    Message.success({
+      content: `已将 ${quantity} 件商品加入购物车`,
+      duration: 2000
     })
   }
 
